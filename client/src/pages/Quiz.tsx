@@ -127,51 +127,53 @@ export default function Quiz() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center relative overflow-hidden">
       {/* Ambient Background */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/20 blur-[120px] rounded-full" />
       </div>
 
-      <div className="w-full max-w-2xl z-10">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/">
-             <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground -ml-2">
-                <ArrowLeft className="w-4 h-4 mr-2" /> Back
-             </Button>
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium text-muted-foreground font-mono">
-              {currentStep + 1} / {questions.length}
-            </span>
-          </div>
-        </div>
+      <div className="w-full h-screen flex flex-col z-10">
+        <Card className="flex-1 border-0 bg-transparent shadow-none rounded-none flex flex-col">
+          <CardContent className="flex-1 flex flex-col p-6 md:p-12 max-w-4xl mx-auto w-full justify-center">
+            
+            {/* Header */}
+            <div className="mb-8 flex items-center justify-between w-full">
+              <div className="flex items-center gap-4">
+                <Link href="/">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground -ml-2 rounded-none">
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                </Button>
+                </Link>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-medium text-muted-foreground font-mono">
+                  {currentStep + 1} / {questions.length}
+                </span>
+              </div>
+            </div>
 
-        {/* Progress Bar */}
-        <div className="h-1 w-full bg-white/5 rounded-full mb-12 overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-primary to-secondary"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5 }}
-          />
-        </div>
+            {/* Progress Bar */}
+            <div className="h-1 w-full bg-white/5 mb-12 overflow-hidden">
+              <motion.div
+                className="h-full bg-gradient-to-r from-primary to-secondary"
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
 
-        {/* Question Card */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStep}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Card className="glass-panel border-white/5 shadow-2xl">
-              <CardContent className="p-8 md:p-12">
+            {/* Question Content */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentStep}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="w-full"
+              >
                 <h2 className="text-2xl md:text-3xl font-bold mb-8 leading-snug">
                   {currentQuestion.text}
                 </h2>
@@ -203,15 +205,15 @@ export default function Quiz() {
                     onClick={handleNext}
                     disabled={!canProceed()}
                     size="lg"
-                    className="w-full md:w-auto text-lg px-8 py-6 rounded-full font-bold bg-white text-black hover:bg-white/90 transition-all"
+                    className="w-full md:w-auto text-lg px-8 py-6 rounded-none font-bold bg-white text-black hover:bg-white/90 transition-all"
                   >
                     Next Question <ChevronRight className="ml-2 w-5 h-5" />
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </AnimatePresence>
+              </motion.div>
+            </AnimatePresence>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
@@ -251,7 +253,7 @@ function BooleanInput({ value, onChange }: { value: any; onChange: (val: any) =>
       <div className="grid grid-cols-2 gap-4">
         <button
           onClick={() => onChange({ ...value, value: true })}
-          className={`p-6 rounded-xl border-2 transition-all duration-200 ${
+          className={`p-6 rounded-none border-2 transition-all duration-200 ${
             selected === true
               ? "border-primary bg-primary/10 text-primary"
               : "border-white/10 hover:border-white/20 hover:bg-white/5"
@@ -261,7 +263,7 @@ function BooleanInput({ value, onChange }: { value: any; onChange: (val: any) =>
         </button>
         <button
           onClick={() => onChange({ ...value, value: false })}
-          className={`p-6 rounded-xl border-2 transition-all duration-200 ${
+          className={`p-6 rounded-none border-2 transition-all duration-200 ${
             selected === false
               ? "border-primary bg-primary/10 text-primary"
               : "border-white/10 hover:border-white/20 hover:bg-white/5"
@@ -277,7 +279,7 @@ function BooleanInput({ value, onChange }: { value: any; onChange: (val: any) =>
           value={explanation}
           onChange={(e) => onChange({ ...value, value: selected, explanation: e.target.value })}
           placeholder="I took a graphic design course in college..."
-          className="bg-black/20 border-white/10 focus:border-primary min-h-[100px]"
+          className="bg-black/20 border-white/10 focus:border-primary min-h-[100px] rounded-none"
         />
       </div>
     </div>
@@ -292,7 +294,7 @@ function ChoiceInput({ options, value, onChange }: { options: { value: string; l
           <RadioGroupItem value={opt.value} id={opt.value} className="peer sr-only" />
           <Label
             htmlFor={opt.value}
-            className={`flex items-center p-6 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+            className={`flex items-center p-6 rounded-none border-2 cursor-pointer transition-all duration-200 ${
               value === opt.value
                 ? "border-primary bg-primary/10 text-primary"
                 : "border-white/10 hover:border-white/20 hover:bg-white/5"
@@ -389,10 +391,10 @@ function ResultsView({ answers }: { answers: Answers }) {
   const backup = sortedScores[1];
 
   return (
-    <div className="min-h-screen bg-background py-12 px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-background py-12 px-4 relative overflow-hidden flex flex-col">
       <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5" />
       
-      <div className="container mx-auto max-w-4xl relative z-10">
+      <div className="container mx-auto max-w-6xl relative z-10 flex-1 flex flex-col justify-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -414,7 +416,7 @@ function ResultsView({ answers }: { answers: Answers }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="glass-panel p-8 md:p-10 rounded-2xl h-full border-primary/20 relative overflow-hidden group">
+            <div className="glass-panel p-8 md:p-10 rounded-none h-full border-primary/20 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-32 bg-primary/10 blur-[100px] rounded-full group-hover:bg-primary/20 transition-all" />
               
               <div className="relative z-10">
@@ -430,7 +432,7 @@ function ResultsView({ answers }: { answers: Answers }) {
                   <h3 className="text-lg font-semibold text-white mb-3">Skills to build:</h3>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {primary.skills.map((skill) => (
-                      <li key={skill} className="flex items-center text-sm text-gray-300 bg-black/20 px-3 py-2 rounded-lg border border-white/5">
+                      <li key={skill} className="flex items-center text-sm text-gray-300 bg-black/20 px-3 py-2 rounded-none border border-white/5">
                         <div className="w-1.5 h-1.5 rounded-full bg-primary mr-2" />
                         {skill}
                       </li>
@@ -438,7 +440,7 @@ function ResultsView({ answers }: { answers: Answers }) {
                   </ul>
                 </div>
 
-                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="p-4 bg-white/5 rounded-none border border-white/10">
                   <h3 className="text-sm font-semibold text-white mb-1">Team Contribution</h3>
                   <p className="text-sm text-muted-foreground">{primary.role}</p>
                 </div>
@@ -453,7 +455,7 @@ function ResultsView({ answers }: { answers: Answers }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <div className="glass-panel p-6 rounded-2xl h-full flex flex-col justify-between border-white/5">
+            <div className="glass-panel p-6 rounded-none h-full flex flex-col justify-between border-white/5">
               <div>
                 <span className="text-xs font-bold tracking-widest text-muted-foreground uppercase mb-4 block">Backup Option</span>
                 <h3 className="text-xl font-bold text-white mb-4">{backup.name}</h3>
@@ -465,7 +467,7 @@ function ResultsView({ answers }: { answers: Answers }) {
               </div>
               
               <div className="mt-8 pt-6 border-t border-white/5">
-                <Button variant="outline" className="w-full border-white/10 hover:bg-white/5" onClick={() => window.location.reload()}>
+                <Button variant="outline" className="w-full border-white/10 hover:bg-white/5 rounded-none" onClick={() => window.location.reload()}>
                   <RefreshCcw className="w-4 h-4 mr-2" /> Retake Quiz
                 </Button>
               </div>
