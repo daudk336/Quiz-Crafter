@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2, ChevronRight, RefreshCcw, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
-import { EmbedModal } from "@/components/EmbedModal";
 
 // --- Data & Types ---
 
@@ -149,7 +148,6 @@ export default function Quiz() {
             <span className="text-sm font-medium text-muted-foreground font-mono">
               {currentStep + 1} / {questions.length}
             </span>
-            <EmbedModal />
           </div>
         </div>
 

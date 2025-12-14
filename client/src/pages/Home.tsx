@@ -3,7 +3,6 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Brain, Zap, Palette } from "lucide-react";
 import heroBg from "@assets/generated_images/modern_abstract_dark_tech_background_with_geometric_shapes.png";
-import { EmbedModal } from "@/components/EmbedModal";
 
 export default function Home() {
   return (
@@ -18,11 +17,6 @@ export default function Home() {
         }}
       />
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/80 via-background/95 to-background" />
-
-      {/* Top Bar */}
-      <div className="absolute top-4 right-4 z-20">
-        <EmbedModal />
-      </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center max-w-4xl">
