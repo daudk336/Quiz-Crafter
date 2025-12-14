@@ -418,10 +418,43 @@ function ResultsView({ answers }: { answers: Answers }) {
   };
 
   const handleEmail = () => {
-    // This is a mockup simulation
+    const name = answers[0] || "there";
+    const email = answers[99];
+    
+    const subject = encodeURIComponent(`Your GHL Specialization Results 🚀`);
+    const body = encodeURIComponent(`Hi ${name},
+
+Here are your specialization results from the GHL Advisor Quiz:
+
+🏆 TOP MATCH: ${primary.name}
+Match Score: ${Math.round(primary.score)}%
+
+Why this fits you:
+${primary.desc}
+
+Your Role:
+${primary.role}
+
+Skills to build:
+${primary.skills.map(s => `• ${s}`).join('\n')}
+
+------------------------------------------------
+
+🥈 BACKUP OPTION: ${backup.name}
+Match Score: ${Math.round(backup.score)}%
+${backup.desc}
+
+------------------------------------------------
+
+Keep building! 🚀
+`);
+
+    // Open user's email client
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+
     toast({
-      title: "Email Sent! 📧",
-      description: `Results have been sent to ${answers[99] || "your email"}.`,
+      title: "Email Client Opened! 📧",
+      description: `Please hit "Send" in your email app to save these results.`,
     });
   };
 
