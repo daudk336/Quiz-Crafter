@@ -10,10 +10,11 @@ import { CheckCircle2, ChevronRight, RefreshCcw, ArrowLeft, Download, Save } fro
 import { Link } from "wouter";
 
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 // --- Data & Types ---
 
-type QuestionType = "scale" | "boolean" | "choice" | "text";
+type QuestionType = "scale" | "boolean" | "choice" | "text" | "email";
 
 interface Question {
   id: number;
@@ -27,6 +28,11 @@ const questions: Question[] = [
     id: 0,
     text: "First, what's your name? 👋",
     type: "text",
+  },
+  {
+    id: 99,
+    text: "And your email address? 📧",
+    type: "email",
   },
   {
     id: 1,
@@ -127,6 +133,7 @@ export default function Quiz() {
     if (currentQuestion.type === "boolean") return ans?.value !== undefined;
     if (currentQuestion.type === "choice") return ans !== undefined;
     if (currentQuestion.type === "text") return ans && ans.length > 0;
+    if (currentQuestion.type === "email") return ans && ans.includes("@") && ans.includes(".");
     return false;
   };
 
@@ -211,6 +218,23 @@ export default function Quiz() {
                         <Input 
                             autoFocus
                             placeholder="Enter your name..."
+                            value={answers[currentQuestion.id] || ""}
+                            onChange={(e) => handleAnswer(e.target.value)}
+                            className="text-2xl p-8 h-auto text-center border-b-2 border-t-0 border-x-0 rounded-none border-primary/50 focus:border-primary bg-transparent focus-visible:ring-0 placeholder:text-muted-foreground/50 max-w-md"
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" && canProceed()) {
+                                    handleNext();
+                                }
+                            }}
+                        />
+                     </div>
+                  )}
+                  {currentQuestion.type === "email" && (
+                     <div className="flex justify-center">
+                        <Input 
+                            autoFocus
+                            type="email"
+                            placeholder="name@example.com"
                             value={answers[currentQuestion.id] || ""}
                             onChange={(e) => handleAnswer(e.target.value)}
                             className="text-2xl p-8 h-auto text-center border-b-2 border-t-0 border-x-0 rounded-none border-primary/50 focus:border-primary bg-transparent focus-visible:ring-0 placeholder:text-muted-foreground/50 max-w-md"
@@ -340,6 +364,8 @@ function ChoiceInput({ options, value, onChange }: { options: { value: string; l
 // --- Results Component ---
 
 function ResultsView({ answers }: { answers: Answers }) {
+  const { toast } = useToast();
+  
   // Calculate Scores (Same logic as before)
   const funnelsRaw = (answers[1] || 0) + (answers[2] || 0) + (answers[3] || 0);
   const funnelsBonus = (answers[9] === "A" ? 10 : 0) + (answers[10] === "A" ? 10 : 0);
@@ -389,6 +415,14 @@ function ResultsView({ answers }: { answers: Answers }) {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleEmail = () => {
+    // This is a mockup simulation
+    toast({
+      title: "Email Sent! 📧",
+      description: `Results have been sent to ${answers[99] || "your email"}.`,
+    });
   };
 
   return (
@@ -480,13 +514,13 @@ function ResultsView({ answers }: { answers: Answers }) {
                   <Download className="w-4 h-4 mr-2" /> Download Results PDF
                 </Button>
 
-                {/* Account / Save Button (Mock) */}
+                {/* Email Button */}
                  <Button 
                   className="w-full rounded-none border-primary text-primary hover:bg-primary/5"
                   variant="outline"
-                  onClick={() => alert("To save your results permanently, we need to upgrade to a full account system!")}
+                  onClick={handleEmail}
                 >
-                  <Save className="w-4 h-4 mr-2" /> Save to Account
+                  <Save className="w-4 h-4 mr-2" /> Email Me Results
                 </Button>
               </div>
             </div>
