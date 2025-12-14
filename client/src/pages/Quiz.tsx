@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2, ChevronRight, RefreshCcw, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
+import { EmbedModal } from "@/components/EmbedModal";
 
 // --- Data & Types ---
 
@@ -137,14 +138,19 @@ export default function Quiz() {
       <div className="w-full max-w-2xl z-10">
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
+          <div className="flex items-center gap-4">
             <Link href="/">
              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground -ml-2">
                 <ArrowLeft className="w-4 h-4 mr-2" /> Back
              </Button>
             </Link>
-          <span className="text-sm font-medium text-muted-foreground font-mono">
-            {currentStep + 1} / {questions.length}
-          </span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium text-muted-foreground font-mono">
+              {currentStep + 1} / {questions.length}
+            </span>
+            <EmbedModal />
+          </div>
         </div>
 
         {/* Progress Bar */}
