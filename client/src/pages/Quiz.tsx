@@ -9,9 +9,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2, ChevronRight, RefreshCcw, ArrowLeft, Download, Save } from "lucide-react";
 import { Link } from "wouter";
 
+import { Input } from "@/components/ui/input";
+
 // --- Data & Types ---
 
-type QuestionType = "scale" | "boolean" | "choice";
+type QuestionType = "scale" | "boolean" | "choice" | "text";
 
 interface Question {
   id: number;
@@ -21,6 +23,11 @@ interface Question {
 }
 
 const questions: Question[] = [
+  {
+    id: 0,
+    text: "First, what's your name? 👋",
+    type: "text",
+  },
   {
     id: 1,
     text: "On a scale of 1-10, how much do you enjoy understanding why people make decisions and what motivates them to buy? 🧠",
@@ -119,6 +126,7 @@ export default function Quiz() {
     if (currentQuestion.type === "scale") return ans !== undefined;
     if (currentQuestion.type === "boolean") return ans?.value !== undefined;
     if (currentQuestion.type === "choice") return ans !== undefined;
+    if (currentQuestion.type === "text") return ans && ans.length > 0;
     return false;
   };
 
@@ -197,6 +205,22 @@ export default function Quiz() {
                       value={answers[currentQuestion.id]}
                       onChange={handleAnswer}
                     />
+                  )}
+                  {currentQuestion.type === "text" && (
+                     <div className="flex justify-center">
+                        <Input 
+                            autoFocus
+                            placeholder="Enter your name..."
+                            value={answers[currentQuestion.id] || ""}
+                            onChange={(e) => handleAnswer(e.target.value)}
+                            className="text-2xl p-8 h-auto text-center border-b-2 border-t-0 border-x-0 rounded-none border-primary/50 focus:border-primary bg-transparent focus-visible:ring-0 placeholder:text-muted-foreground/50 max-w-md"
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" && canProceed()) {
+                                    handleNext();
+                                }
+                            }}
+                        />
+                     </div>
                   )}
                 </div>
 
@@ -381,7 +405,7 @@ function ResultsView({ answers }: { answers: Answers }) {
           <div className="inline-block p-3 rounded-full bg-green-500/10 text-green-600 mb-4 border border-green-500/20">
             <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">Your Results Are In 🎉</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">{answers[0] ? `${answers[0]}'s` : "Your"} Results Are In 🎉</h1>
           <p className="text-xl text-muted-foreground">Here is your ideal role in the team.</p>
         </motion.div>
 
