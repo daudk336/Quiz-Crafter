@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, ChevronRight, RefreshCcw, ArrowLeft, Download, Save } from "lucide-react";
+import { CheckCircle2, ChevronRight, RefreshCcw, ArrowLeft, Download } from "lucide-react";
 import { Link } from "wouter";
 
 import { Input } from "@/components/ui/input";
@@ -417,47 +417,6 @@ function ResultsView({ answers }: { answers: Answers }) {
     window.print();
   };
 
-  const handleEmail = () => {
-    const name = answers[0] || "there";
-    const email = answers[99];
-    
-    const subject = encodeURIComponent(`Your GHL Specialization Results 🚀`);
-    const body = encodeURIComponent(`Hi ${name},
-
-Here are your specialization results from the GHL Advisor Quiz:
-
-🏆 TOP MATCH: ${primary.name}
-Match Score: ${Math.round(primary.score)}%
-
-Why this fits you:
-${primary.desc}
-
-Your Role:
-${primary.role}
-
-Skills to build:
-${primary.skills.map(s => `• ${s}`).join('\n')}
-
-------------------------------------------------
-
-🥈 BACKUP OPTION: ${backup.name}
-Match Score: ${Math.round(backup.score)}%
-${backup.desc}
-
-------------------------------------------------
-
-Keep building! 🚀
-`);
-
-    // Open user's email client
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-
-    toast({
-      title: "Email Client Opened! 📧",
-      description: `Please hit "Send" in your email app to save these results.`,
-    });
-  };
-
   return (
     <div className="min-h-screen bg-background py-12 px-4 relative overflow-hidden flex flex-col">
       <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5" />
@@ -545,15 +504,6 @@ Keep building! 🚀
                   onClick={handlePrint}
                 >
                   <Download className="w-4 h-4 mr-2" /> Download Results PDF
-                </Button>
-
-                {/* Email Button */}
-                 <Button 
-                  className="w-full rounded-none border-primary text-primary hover:bg-primary/5"
-                  variant="outline"
-                  onClick={handleEmail}
-                >
-                  <Save className="w-4 h-4 mr-2" /> Email Me Results
                 </Button>
               </div>
             </div>
